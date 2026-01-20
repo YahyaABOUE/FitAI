@@ -35,27 +35,6 @@ Frontend :
 
 -----------------------------------------------------------------------
 
-ARCHITECTURE DU PROJET
-
-FitAI
-│
-├── backend
-│   └── app
-│       ├── main.py
-│       ├── models.py
-│       ├── embeddings_service.py
-│       ├── neo4j_client.py
-│       ├── prompt_template.py
-│       ├── seed_db.py
-│       └── requirements.txt
-│
-├── frontend
-│   └── index.html
-│
-└── README.txt
-
------------------------------------------------------------------------
-
 INSTALLATION ET EXÉCUTION
 
 1) Cloner le projet
