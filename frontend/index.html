@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Fitness Coach</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui;
+    background: linear-gradient(135deg,#0f172a,#020617);
+    color: white;
+    min-height: 100vh;
+}
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 42px;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: #94a3b8;
+}
+
+.grid-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 520px;
+    gap: 50px;
+    justify-content: center;
+}
+
+.grid.show-plan {
+    grid-template-columns: 480px 520px;
+}
+
+
+.card {
+    background: rgba(2,6,23,.9);
+    border-radius: 22px;
+    padding: 32px;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,.04),
+        0 30px 80px rgba(0,0,0,.6);
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-top: 16px;
+    color: #94a3b8;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 10px;
+    border: none;
+    background: #0f172a;
+    color: white;
+    font-size: 14px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.checkbox-group label {
+    background: #0f172a;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(90deg,#22c55e,#16a34a);
+    border: none;
+    border-radius: 14px;
+    color: black;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#exportBtn {
+    display: none;
+    background: linear-gradient(90deg,#3b82f6,#2563eb);
+    color: white;
+}
+
+#plan {
+    display: none;
+}
+
+.summary {
+    font-size: 16px;
+    color: #cbd5f5;
+    margin-bottom: 25px;
+}
+
+.day {
+    background: #0f172a;
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 15px;
+}
+
+.exercise {
+    background: #020617;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.exercise b {
+    color: #22c55e;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="header">
+        <h1>AI Fitness Coach</h1>
+        <p>Personalized training created by Yahya ABOU EL AZIZ, Mehdi GUELLIDA, Khalil KASSIMI, Younes EL MAJDOUBI EL IDRISSI</p>
+    </div>
+
+    <div class="grid-wrapper">
+        <div class="grid">
+
+            <!-- FORM -->
+            <div class="card">
+                <h2>Your Profile</h2>
+
+                <label>Age</label>
+                <input id="age" type="number">
+
+                <label>Sex</label>
+                <select id="sex">
+                    <option>male</option>
+                    <option>female</option>
+                </select>
+
+                <label>Height (cm)</label>
+                <input id="height">
+
+                <label>Weight (kg)</label>
+                <input id="weight">
+
+                <label>Goal</label>
+                <select id="goal">
+                    <option>Lose fat</option>
+                    <option>Build muscle</option>
+                    <option>Improve endurance</option>
+                    <option>Conditioning</option>
+                </select>
+
+                <label>Experience</label>
+                <select id="experience">
+                    <option>beginner</option>
+                    <option>intermediate</option>
+                    <option>advanced</option>
+                </select>
+
+                <label>Equipment</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" class="equip" value="Dumbbells"> Dumbbells</label>
+                    <label><input type="checkbox" class="equip" value="Barbell"> Barbell</label>
+                    <label><input type="checkbox" class="equip" value="Machines"> Machines</label>
+                    <label><input type="checkbox" class="equip" value="None"> None</label>
+                </div>
+
+                <label>Injuries</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" class="injury" value="Knee Pain"> Knee</label>
+                    <label><input type="checkbox" class="injury" value="Lower Back Pain"> Back</label>
+                    <label><input type="checkbox" class="injury" value="Shoulder Pain"> Shoulder</label>
+                </div>
+
+                <label>Days per week</label>
+                <input id="days" value="3">
+
+                <button onclick="generate()">Generate Plan</button>
+                <button id="exportBtn" onclick="exportPDF()">Export as PDF</button>
+            </div>
+
+            <!-- PLAN -->
+            <div class="card" id="plan">
+                <h2>Your Program</h2>
+                <div class="summary" id="summary"></div>
+                <div id="daysView"></div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+let lastPlan = null;
+
+async function generate(){
+   document.getElementById("plan").style.display="block";
+document.querySelector(".grid").classList.add("show-plan");
+
+    document.getElementById("daysView").innerHTML="Generating...";
+
+    const payload = {
+        age:Number(age.value),
+        sex:sex.value,
+        height_cm:Number(height.value),
+        weight_kg:Number(weight.value),
+        goal:goal.value,
+        experience:experience.value,
+        equipment:[...document.querySelectorAll(".equip:checked")].map(e=>e.value),
+        injuries:[...document.querySelectorAll(".injury:checked")].map(e=>e.value),
+        days_per_week:Number(days.value)
+    };
+
+    const r = await fetch("http://localhost:8000/plan",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(payload)
+    });
+
+    const data = await r.json();
+    lastPlan = data;
+
+    document.getElementById("exportBtn").style.display="block";
+    document.getElementById("summary").innerText=data.summary;
+
+    let html="";
+    for(let day in data.week){
+        html+=`<div class="day"><h3>${day}</h3>`;
+        data.week[day].forEach(e=>{
+            html+=`<div class="exercise"><b>${e.name}</b><br>${e.sets} x ${e.reps}<br>${e.notes}</div>`;
+        });
+        html+="</div>";
+    }
+    document.getElementById("daysView").innerHTML=html;
+}
+
+async function exportPDF(){
+    if(!lastPlan){
+        alert("No plan generated yet.");
+        return;
+    }
+
+    const res = await fetch("http://localhost:8000/export-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(lastPlan)
+    });
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "workout_plan.pdf";
+    a.click();
+
+    window.URL.revokeObjectURL(url);
+}
+
+</script>
+
+</body>
+</html>

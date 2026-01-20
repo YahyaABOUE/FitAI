@@ -1,0 +1,12 @@
+CMD :
+cd C:\Users\yahya\PycharmProjects\PythonProject2
+cd backend\app
+.venv\Scripts\activate
+uvicorn main:app --reload
+
+Terminal :
+cd C:\Users\yahya\PycharmProjects\PythonProject2\frontend
+python -m http.server 5500
+
+Link :
+http://localhost:5500
