@@ -98,6 +98,7 @@ AUTEURS
 - Yahya ABOU EL AZIZ
 - Mehdi GUELLIDA
 - Younes EL MAJDOUBI EL IDRISSI
+- Khalil KASIMI
 
 -----------------------------------------------------------------------
 
