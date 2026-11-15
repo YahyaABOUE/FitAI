@@ -1,106 +1,83 @@
-FitAI – AI Fitness Coach
+# FitAI – AI Fitness Coach
 
-DESCRIPTION
-FitAI est une application d’assistant sportif intelligent qui génère des plans
-d’entraînement personnalisés en fonction du profil utilisateur (âge, objectifs,
-niveau sportif et contraintes physiques).
+## Description
+FitAI is an intelligent fitness assistant that generates personalized workout plans based on the user's profile (age, goals, fitness level and physical constraints).
 
-Le projet combine une API backend en Python, des techniques d’intelligence
-artificielle (embeddings), et une base de données graphe Neo4j afin de produire
-des recommandations adaptées et cohérentes.
+The project combines a Python backend API, AI techniques (embeddings) and a Neo4j graph database to produce consistent recommendations tailored to each user.
 
------------------------------------------------------------------------
+## Main Features
+- User profile creation
+- Automatic workout plan generation
+- Exercises adapted to fitness level and goals
+- Clear separation between backend and frontend
 
-FONCTIONNALITÉS PRINCIPALES
-- Création de profils utilisateurs
-- Génération automatique de plans d’entraînement
-- Adaptation des exercices selon le niveau et les objectifs
-- Séparation claire entre backend et frontend
-
------------------------------------------------------------------------
-
-TECHNOLOGIES UTILISÉES
-
-Backend :
+## Tech Stack
+**Backend:**
 - Python 3
 - FastAPI
-- Neo4j (base de données graphe)
-- OpenAI API (embeddings et raisonnement)
+- Neo4j (graph database)
+- OpenAI API (embeddings and reasoning)
 - Uvicorn
 
-Frontend :
+**Frontend:**
 - HTML
 - CSS
 - JavaScript
 
------------------------------------------------------------------------
+## Installation & Usage
 
-INSTALLATION ET EXÉCUTION
+1. **Clone the project**
+   ```bash
+   git clone https://github.com/YahyaABOUE/FitAI.git
+   cd FitAI
+   ```
 
-1) Cloner le projet
-git clone https://github.com/YahyaABOUE/FitAI.git
-cd FitAI
+2. **Create a virtual environment**
+   ```bash
+   python -m venv venv
+   ```
+   Activate it:
+   - Windows: `venv\Scripts\activate`
+   - Linux / macOS: `source venv/bin/activate`
 
------------------------------------------------------------------------
+3. **Install dependencies**
+   ```bash
+   pip install -r backend/app/requirements.txt
+   ```
 
-2) Créer un environnement virtuel
-python -m venv venv
+4. **Set environment variables**
 
-Activation :
-Windows :
-venv\Scripts\activate
+   Create a `.env` file in `backend/app` with:
+   ```
+   OPENAI_API_KEY=your_openai_key
+   NEO4J_URI=bolt://localhost:7687
+   NEO4J_USER=neo4j
+   NEO4J_PASSWORD=your_password
+   ```
 
-Linux / macOS :
-source venv/bin/activate
+5. **Run the backend**
+   ```bash
+   cd backend/app
+   uvicorn main:app --reload
+   ```
+   The API will be available at http://127.0.0.1:8000
 
------------------------------------------------------------------------
+6. **Run the frontend**
 
-3) Installer les dépendances
-pip install -r backend/app/requirements.txt
+   Open `frontend/index.html` in a web browser.
 
------------------------------------------------------------------------
+## Academic Purpose
+This project was built in an academic setting to demonstrate:
+- The use of a modern backend API (FastAPI)
+- The integration of AI into a real-world application
+- The use of a graph database (Neo4j)
+- A clean, modular software architecture
 
-4) Configuration des variables d’environnement
-
-Créer un fichier .env dans le dossier backend/app avec le contenu suivant :
-
-OPENAI_API_KEY=your_openai_key
-NEO4J_URI=bolt://localhost:7687
-NEO4J_USER=neo4j
-NEO4J_PASSWORD=your_password
-
------------------------------------------------------------------------
-
-5) Lancer le backend
-cd backend/app
-uvicorn main:app --reload
-
-L’API sera accessible à l’adresse :
-http://127.0.0.1:8000
-
------------------------------------------------------------------------
-
-6) Lancer le frontend
-Ouvrir le fichier frontend/index.html dans un navigateur web.
-
------------------------------------------------------------------------
-
-OBJECTIF ACADÉMIQUE
-Ce projet a été réalisé dans un cadre académique afin de démontrer :
-- L’utilisation d’une API backend moderne (FastAPI)
-- L’intégration de l’intelligence artificielle dans une application concrète
-- L’exploitation d’une base de données graphe (Neo4j)
-- Une architecture logicielle claire et modulaire
-
------------------------------------------------------------------------
-
-AUTEURS
+## Authors
 - Yahya ABOU EL AZIZ
 - Mehdi GUELLIDA
 - Younes EL MAJDOUBI EL IDRISSI
 - Khalil KASIMI
 
------------------------------------------------------------------------
-
-LICENCE
-Projet réalisé à des fins éducatives.
+## License
+Project built for educational purposes.
